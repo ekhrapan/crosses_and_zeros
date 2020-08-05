@@ -11,7 +11,7 @@ public class GameField {
     }
 
     public void setValue(int x, int y, boolean value) throws CellIsFilledException, CellIsOutOfFieldException {
-        if (x >= field.length || y >= field.length) {
+        if (x >= field.length || y >= field.length || x < 0 || y < 0) {
             throw new CellIsOutOfFieldException();
         }
 
