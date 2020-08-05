@@ -29,16 +29,4 @@ public class GameField {
     public int getSize() {
         return field.length;
     }
-
-    public boolean allFieldIsFilled() {
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field.length; j++) {
-                if (field[i][j] == null) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
 }

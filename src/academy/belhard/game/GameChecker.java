@@ -9,16 +9,14 @@ public class GameChecker {
     }
 
     public Boolean checkWinner() {
-        for (int i = 0; i < gameField.getSize(); i++) {
-            if (gameField.getValue(i, 0) != null && gameField.getValue(i, 0).equals(gameField.getValue(i, 1)) && gameField.getValue(i, 0).equals(gameField.getValue(i, 2))) {
-                return gameField.getValue(i, 0);
-            }
+        Boolean checkRows = checkRows();
+        if (checkRows != null) {
+            return checkRows;
         }
 
-        for (int i = 0; i < gameField.getSize(); i++) {
-            if (gameField.getValue(0, i) != null && gameField.getValue(0, i).equals(gameField.getValue(1, i)) && gameField.getValue(0, i).equals(gameField.getValue(2, i))) {
-                return gameField.getValue(0, i);
-            }
+        Boolean checkCols = checkCols();
+        if (checkCols != null) {
+            return checkCols;
         }
 
         Boolean mainDiagonal = checkMainDiagonal();
@@ -29,6 +27,54 @@ public class GameChecker {
         Boolean reverseDiagonal = checkReverseDiagonal();
         if (reverseDiagonal != null) {
             return reverseDiagonal;
+        }
+
+        return null;
+    }
+
+    private Boolean checkRows() {
+        for (int i = 0; i < gameField.getSize(); i++) {
+            Boolean firstCell = gameField.getValue(i, 0);
+
+            if (firstCell == null) {
+                continue;
+            }
+
+            for (int j = 1; j < gameField.getSize(); j++) {
+                Boolean checkedCell = gameField.getValue(i, j);
+
+                if (!firstCell.equals(checkedCell)) {
+                    break;
+                }
+
+                if (j == gameField.getSize() - 1) {
+                    return firstCell;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private Boolean checkCols() {
+        for (int i = 0; i < gameField.getSize(); i++) {
+            Boolean firstCell = gameField.getValue(0, i);
+
+            if (firstCell == null) {
+                continue;
+            }
+
+            for (int j = 1; j < gameField.getSize(); j++) {
+                Boolean checkedCell = gameField.getValue(j, i);
+
+                if (!firstCell.equals(checkedCell)) {
+                    break;
+                }
+
+                if (j == gameField.getSize() - 1) {
+                    return firstCell;
+                }
+            }
         }
 
         return null;
@@ -50,14 +96,6 @@ public class GameChecker {
         return firstCell;
     }
 
-    //     0123
-    //     ----
-    // 0 | X0X0
-    // 1 | X0X0
-    // 2 | X0X0
-    // 3 | X0X0
-
-
     private Boolean checkReverseDiagonal() {
         int colNumber = 0;
         Boolean firstCell = gameField.getValue(gameField.getSize() - 1, colNumber);
@@ -74,5 +112,17 @@ public class GameChecker {
         }
 
         return firstCell;
+    }
+
+    public boolean allFieldIsFilled() {
+        for (int i = 0; i < gameField.getSize(); i++) {
+            for (int j = 0; j < gameField.getSize(); j++) {
+                if (gameField.getValue(i, j) == null) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
